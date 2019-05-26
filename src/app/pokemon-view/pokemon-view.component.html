@@ -1,0 +1,72 @@
+<div class="container">
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Pokedex</a></li>
+      <li class="breadcrumb-item active" aria-current="page">View Pokemon</li>
+    </ol>
+  </nav>
+
+  <div class="text-center text-danger" *ngIf="loading">
+    <div class="spinner-border" role="status" style="width: 5rem; height: 5rem;">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+
+  <div class="detail" *ngIf="detail">
+    <div class="row">
+      <div class="col-s-12 col-sm-6">
+        <h1>#{{detail.order}} {{detail.name | titlecase}}</h1>
+      </div>
+
+      <div class="col-s-12 col-sm-6">
+        <h4 class="text-right"><span class="badge badge-secondary mr-2"
+            *ngFor="let item of detail.types">{{item.type.name | titlecase}}</span></h4>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div *ngFor="let sprite of detail.sprites | keyvalue">
+        <img src="{{sprite.value}}" alt="{{sprite.key}}" *ngIf="sprite.value" />
+      </div>
+    </div>
+
+    <div class="row mt-5">
+
+      <table class="table col-sm-6">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Stat</th>
+            <th scope="col">Base</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let stat of detail.stats">
+            <td>{{stat.stat.name | titlecase}}</td>
+            <td>{{stat.base_stat}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="table col-sm-6">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Moves</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let move of detail.moves; index as i">
+            <td *ngIf="i < detail.stats.length">{{move.move.name | titlecase}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="error" *ngIf="error">
+    <div class="alert alert-danger" *ngIf="error.status === 404">Sorry this Pokemon has not been found.</div>
+    <div class="alert alert-danger" *ngIf="error.status !== 404">Sorry, an unknown error has occured.</div>
+  </div>
+
+</div>

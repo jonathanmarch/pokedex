@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="filter">Filter Name</span>
+    </div>
+    <input type="text" class="form-control" aria-label="Filter by Pokemon Name" [(ngModel)]="nameFilter" (keyup)="onFilterChanged(false)">
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="sort">Sort Name</label>
+    </div>
+    <select class="custom-select" id="sort" [(ngModel)]="nameSort" (change)="onSortChanged()">
+      <option value="">Default</option>
+      <option value="a-z">A - Z</option>
+      <option value="z-a">Z - A</option>
+    </select>
+  </div>
+
+  <div class="row">
+
+    <div *ngFor="let pokemon of list" class="col-md-2 p-2">
+
+      <a routerLink="/pokemon/{{pokemon.name}}">
+        <div class="card text-center">
+          <img src="assets/sprites/{{pokemon.name}}.gif" class="mt-3 mx-auto"
+            style="height: 70px;" />
+          <div class="card-body p-3">
+            {{pokemon.name | titlecase}}
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+  </div>
+
+  <div class="text-center text-danger" *ngIf="loading">
+    <div class="spinner-border" role="status" style="width: 5rem; height: 5rem;">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div class="error" *ngIf="error">
+    <div class="alert alert-danger">Sorry, an unknown error has occured.</div>
+  </div>
+</div>
